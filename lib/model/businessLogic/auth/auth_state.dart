@@ -8,10 +8,16 @@ abstract class AuthenticationState extends Equatable {
 
 class AuthenticationUninitialized extends AuthenticationState {}
 
-class AuthenticationAuthenticated extends AuthenticationState {
+class AuthenticationAuthenticatedVerified extends AuthenticationState {
   final LoginResponse loginResponse;
 
-  AuthenticationAuthenticated({required this.loginResponse});
+  AuthenticationAuthenticatedVerified({required this.loginResponse});
+}
+
+class AuthenticationAuthenticatedUnVerified extends AuthenticationState {
+  final LoginResponse loginResponse;
+
+  AuthenticationAuthenticatedUnVerified({required this.loginResponse});
 }
 
 class AuthenticationUnauthenticated extends AuthenticationState {}

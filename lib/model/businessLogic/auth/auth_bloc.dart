@@ -25,8 +25,11 @@ class AuthenticationBloc
       final bool hasToken = await loginRepository.hasToken();
       final LoginResponse res = await loginRepository.getLoginResponse();
       if (hasToken) {
-        yield AuthenticationAuthenticated(
-            loginResponse: res);
+        if (res.user.verified) {
+          yield AuthenticationAuthenticatedVerified(loginResponse: res);
+        } else {
+          yield AuthenticationAuthenticatedUnVerified(loginResponse: res);
+        }
       } else {
         yield AuthenticationUnauthenticated();
       }
@@ -35,7 +38,11 @@ class AuthenticationBloc
     if (event is LoggedIn) {
       yield AuthenticationLoading();
       await loginRepository.persistLoginResponse(event.loginResponse);
-      yield AuthenticationAuthenticated(loginResponse: event.loginResponse);
+       if (event.loginResponse.user.verified) {
+          yield AuthenticationAuthenticatedVerified(loginResponse: event.loginResponse);
+        } else {
+          yield AuthenticationAuthenticatedUnVerified(loginResponse: event.loginResponse);
+        }
     }
 
     if (event is LoggedOut) {
