@@ -54,13 +54,18 @@ class LoginRepository {
       if (response.statusCode == 200) {
         loginResponse = LoginResponse.fromMap(response.data);
         return loginResponse;
-      } else if (response.statusCode == 401) {
-        return LoginResponse.withError('Wrong Password: Try Again');
-      } else if (response.statusCode == 404) {
-        return LoginResponse.withError('Wrong Username: Try Again');
       } else {
         return LoginResponse.withError(
             'Internal Server Error: Try Again Later');
+      }
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 401) {
+        return LoginResponse.withError('Wrong Password: Try Again');
+      } else if (e.response?.statusCode == 404) {
+        return LoginResponse.withError('Wrong Username: Try Again');
+      } else {
+        print("The Error is :- ${e.toString()}");
+        return LoginResponse.withError('Internal Server Error: Try Again Later');
       }
     } catch (e) {
       print("The Error is :- ${e.toString()}");
