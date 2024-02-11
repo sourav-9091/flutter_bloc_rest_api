@@ -11,70 +11,61 @@ class DioInterceptor extends Interceptor {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    try {
-      final res = await storage.read(key: 'loginResponse') as String;
+    final res = await storage.read(key: 'loginResponse') as String;
 
-      LoginResponse loginResponse = LoginResponse.fromMap(json.decode(res));
-      options.headers.addAll({
-        "Content-Type": "application/json",
-        'Cookie':
-            'refreshToken=${loginResponse.backendTokens.refreshToken}; token=${loginResponse.backendTokens.token}'
-      });
-      handler.next(options);
-    } on DioException catch (e) {
-      options.headers.addAll({
-        "Content-Type": "application/json",
-      });
-      handler.next(options);
-    } catch (e) {
-      options.headers.addAll({
-        "Content-Type": "application/json",
-      });
-      handler.next(options);
-    }
+    LoginResponse loginResponse = LoginResponse.fromMap(json.decode(res));
+    options.headers.addAll({
+      "Content-Type": "application/json",
+      'Cookie':
+          'refreshToken=${loginResponse.backendTokens.refreshToken}; token=${loginResponse.backendTokens.token}'
+    });
+    handler.next(options);
   }
 
   // void onError(DioException err, ErrorInterceptorHandler handler) async {
-  // // Check if the user is unauthorized.
-  // if (err.response?.statusCode == 401) {
-  //   // Refresh the user's authentication token.
-  //   await refreshToken();
-  //   // Retry the request.
-  //   try {
-  //     handler.resolve(await _retry(err.requestOptions));
-  //   } on DioException catch (e) {
-  //     // If the request fails again, pass the error to the next interceptor in the chain.
-  //     handler.next(e);
+  //   if (err.response?.statusCode == 401) {
+  //     await refreshToken();
+  //     try {
+  //       handler.resolve(await _retry(err.requestOptions));
+  //     } on DioException catch (e) {
+  //       handler.next(e);
+  //     }
+  //     return;
   //   }
-  //   // Return to prevent the next interceptor in the chain from being executed.
-  //   return;
-  // }
-  // // Pass the error to the next interceptor in the chain.
-  // handler.next(err);
+  //   handler.next(err);
   // }
 
-  // Future<Response<dynamic>> refreshToken() async {
-  //   var response = await dio.post(APIs.refreshToken,
-  //       options: Options(headers: {"Refresh-Token": "refresh-token"}));
-  //   // on success response, deserialize the response
+  // Future<void> refreshToken() async {
+  //   final res = await storage.read(key: 'loginResponse') as String;
+
+  //   LoginResponse loginResponse = LoginResponse.fromMap(json.decode(res));
+  //   var response = await dio.post(
+  //       "https://backend.evently.adityachoudhury.com/api/auth/refresh",
+  //       options: Options(headers: {
+  //         "Refresh-Token": loginResponse.backendTokens.refreshToken
+  //       }));
   //   if (response.statusCode == 200) {
-  //     // LoginRequestResponse requestResponse =
-  //     //    LoginRequestResponse.fromJson(response.data);
-  //     // UPDATE the STORAGE with new access and refresh-tokens
-  //     return response;
+  //     var data = json.decode(response.data);
+  //     var newResponse = LoginResponse.withNewAccessToken(
+  //         loginResponse, data.token, data.refreshToken);
+
+  //     await storage.write(
+  //         key: 'loginResponse', value: json.encode(newResponse.toMap()));
   //   }
   // }
 
   // Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
-  //   // Create a new `RequestOptions` object with the same method, path, data, and query parameters as the original request.
+  //   final res = await storage.read(key: 'loginResponse') as String;
+
+  //   LoginResponse loginResponse = LoginResponse.fromMap(json.decode(res));
   //   final options = Options(
   //     method: requestOptions.method,
   //     headers: {
-  //       "Authorization": "Bearer ${token}",
+  //       "Content-Type": "application/json",
+  //       'Cookie':
+  //           'refreshToken=${loginResponse.backendTokens.refreshToken}; token=${loginResponse.backendTokens.token}'
   //     },
   //   );
-
-  //   // Retry the request with the new `RequestOptions` object.
   //   return dio.request<dynamic>(requestOptions.path,
   //       data: requestOptions.data,
   //       queryParameters: requestOptions.queryParameters,

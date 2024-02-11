@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hrms/model/dataModel/login/loginResponse.dart';
-import 'package:hrms/viewModel/InterceptorHttp.dart';
 import 'package:hrms/viewModel/interceptor.dart';
+import 'package:hrms/viewModel/loginInterceptor.dart';
 
 var dio = Dio();
 var headers = {'Content-Type': 'application/json'};
+
+var dioHttp = Dio();
 
 class LoginRepository {
   final String _loginUrl =
@@ -47,10 +49,10 @@ class LoginRepository {
 
   Future<LoginResponse> login(
       {required String username, required String password}) async {
-    dio.interceptors.add(DioInterceptor());
+    dioHttp.interceptors.add(DioInterceptorHttp());
     var data = json.encode({"email": username, "password": password});
     try {
-      var response = await dio.request(
+      var response = await dioHttp.request(
         _loginUrl,
         options: Options(
           method: 'POST',

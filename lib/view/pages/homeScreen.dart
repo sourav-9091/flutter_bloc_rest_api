@@ -26,11 +26,21 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Container(
         child: Center(
-            child: TextButton(
-          child: const Text('logout'),
-          onPressed: () {
-            authenticationBloc.add(LoggedOut());
-          },
+            child: Column(
+          children: [
+            TextButton(
+              onPressed: () {
+                
+              },
+              child: Text("Kiit Form"),
+            ),
+            TextButton(
+              child: const Text('logout'),
+              onPressed: () {
+                authenticationBloc.add(LoggedOut());
+              },
+            ),
+          ],
         )),
       ),
     );
