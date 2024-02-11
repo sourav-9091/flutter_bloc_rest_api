@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.loginResponse.user.name),
+        centerTitle: true,
       ),
       body: Container(
         child: Center(

@@ -39,6 +39,31 @@ factory LoginResponse.withError(String error) {
   );
 }
 
+factory LoginResponse.withVerification(LoginResponse loginResponse) {
+  return LoginResponse(
+    backendTokens: BackendTokens(
+      token: loginResponse.backendTokens.token,
+      refreshToken: loginResponse.backendTokens.refreshToken,
+      expiresIn: loginResponse.backendTokens.expiresIn,
+    ),
+    user: User(
+      id: loginResponse.user.id,
+      name: loginResponse.user.name,
+      email: loginResponse.user.email,
+      password: loginResponse.user.password,
+      role: loginResponse.user.role,
+      verified: true,
+      face: loginResponse.user.face,
+      deleted: loginResponse.user.deleted,
+      createdAt: loginResponse.user.createdAt,
+      updatedAt: loginResponse.user.updatedAt,
+      v: loginResponse.user.v,
+    ),
+    message: loginResponse.message,
+    success: loginResponse.success,
+  );
+}
+
   LoginResponse copyWith({
     BackendTokens? backendTokens,
     User? user,

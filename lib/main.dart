@@ -8,8 +8,8 @@ import 'package:hrms/model/repository/loginRepository.dart';
 import 'package:hrms/view/pages/homeScreen.dart';
 import 'package:hrms/view/pages/loadingIndicator.dart';
 import 'package:hrms/view/pages/login/loginScreen.dart';
+import 'package:hrms/view/pages/login/verifyScreen.dart';
 import 'package:hrms/view/pages/splashScreen.dart';
-import 'package:hrms/view/pages/test.dart';
 
 void main() {
   final loginRepository = LoginRepository();
@@ -43,7 +43,8 @@ class App extends StatelessWidget {
             return HomePage(loginResponse: state.loginResponse);
           }
           if (state is AuthenticationAuthenticatedUnVerified) {
-            return Test(loginResponse: state.loginResponse,);
+            return VerifyScreen(
+                loginResponse: state.loginResponse, loginRepository: loginRepository);
           }
           if (state is AuthenticationUnauthenticated) {
             return LoginScreen(loginRepository: loginRepository);

@@ -5,40 +5,53 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hrms/model/dataModel/login/loginResponse.dart';
 
 class DioInterceptor extends Interceptor {
-  final dio = Dio(BaseOptions(baseUrl: "base-api-url"));
+  final dio = Dio(BaseOptions(baseUrl: ""));
   final storage = FlutterSecureStorage();
 
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    final loginResponse = await storage.read(key: 'loginResponse') as String;
-    final token =
-        LoginResponse.fromJson(json.decode(loginResponse)).backendTokens.token;
-    options.headers.addAll({
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $token",
-    });
-    handler.next(options);
+    try {
+      final res = await storage.read(key: 'loginResponse') as String;
+
+      LoginResponse loginResponse = LoginResponse.fromMap(json.decode(res));
+      options.headers.addAll({
+        "Content-Type": "application/json",
+        'Cookie':
+            'refreshToken=${loginResponse.backendTokens.refreshToken}; token=${loginResponse.backendTokens.token}'
+      });
+      handler.next(options);
+    } on DioException catch (e) {
+      options.headers.addAll({
+        "Content-Type": "application/json",
+      });
+      handler.next(options);
+    } catch (e) {
+      options.headers.addAll({
+        "Content-Type": "application/json",
+      });
+      handler.next(options);
+    }
   }
 
-  void onError(DioException err, ErrorInterceptorHandler handler) async {
-    // // Check if the user is unauthorized.
-    // if (err.response?.statusCode == 401) {
-    //   // Refresh the user's authentication token.
-    //   await refreshToken();
-    //   // Retry the request.
-    //   try {
-    //     handler.resolve(await _retry(err.requestOptions));
-    //   } on DioException catch (e) {
-    //     // If the request fails again, pass the error to the next interceptor in the chain.
-    //     handler.next(e);
-    //   }
-    //   // Return to prevent the next interceptor in the chain from being executed.
-    //   return;
-    // }
-    // // Pass the error to the next interceptor in the chain.
-    handler.next(err);
-  }
+  // void onError(DioException err, ErrorInterceptorHandler handler) async {
+  // // Check if the user is unauthorized.
+  // if (err.response?.statusCode == 401) {
+  //   // Refresh the user's authentication token.
+  //   await refreshToken();
+  //   // Retry the request.
+  //   try {
+  //     handler.resolve(await _retry(err.requestOptions));
+  //   } on DioException catch (e) {
+  //     // If the request fails again, pass the error to the next interceptor in the chain.
+  //     handler.next(e);
+  //   }
+  //   // Return to prevent the next interceptor in the chain from being executed.
+  //   return;
+  // }
+  // // Pass the error to the next interceptor in the chain.
+  // handler.next(err);
+  // }
 
   // Future<Response<dynamic>> refreshToken() async {
   //   var response = await dio.post(APIs.refreshToken,
