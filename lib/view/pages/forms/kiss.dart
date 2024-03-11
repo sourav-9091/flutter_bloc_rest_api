@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms/view/widgets/customFormAppBar.dart';
 
 class KISS extends StatefulWidget {
   const KISS({super.key});
@@ -11,7 +12,11 @@ class _KISSState extends State<KISS> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text("KISS"),
+      backgroundColor: Colors.white,
+      appBar: customFormAppBar(title:"KISS"),
+      body: Center(
+        child: Text("KISS"),
+      ),
     );
   }
 }

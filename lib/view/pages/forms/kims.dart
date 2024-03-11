@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms/view/widgets/customFormAppBar.dart';
 
 class KIMS extends StatefulWidget {
   const KIMS({super.key});
@@ -10,8 +11,12 @@ class KIMS extends StatefulWidget {
 class _KIMSState extends State<KIMS> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Text("KIMS"),
+return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: customFormAppBar(title:"KIMS"),
+      body: Center(
+        child: Text("KIMS"),
+      ),
     );
   }
 }

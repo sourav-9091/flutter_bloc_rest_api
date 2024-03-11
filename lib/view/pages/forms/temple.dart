@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms/view/widgets/customFormAppBar.dart';
 
 class TEMPLE extends StatefulWidget {
   const TEMPLE({super.key});
@@ -11,7 +12,11 @@ class _TEMPLEState extends State<TEMPLE> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text("TEMPLE"),
+      backgroundColor: Colors.white,
+      appBar: customFormAppBar(title:"TEMPLE"),
+      body: Center(
+        child: Text("TEMPLE"),
+      ),
     );
   }
 }

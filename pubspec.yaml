@@ -45,6 +45,11 @@ dependencies:
   http: ^1.1.0
   hive_flutter: ^1.1.0
   image_picker: ^1.0.7
+  qr_flutter: ^4.0.0
+  csc_picker: ^0.2.7
+  carousel_slider: ^4.2.1
+  any_link_preview: ^3.0.1
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms/view/widgets/customFormAppBar.dart';
 
 class HOSPITALITY extends StatefulWidget {
   const HOSPITALITY({super.key});
@@ -10,8 +11,12 @@ class HOSPITALITY extends StatefulWidget {
 class _HOSPITALITYState extends State<HOSPITALITY> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Text("HOSPITALITY"),
+return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: customFormAppBar(title:"HOSPITALITY"),
+      body: Center(
+        child: Text("HOSPITALITY"),
+      ),
     );
   }
 }

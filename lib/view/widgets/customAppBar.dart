@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms/view/pages/profile/profile.dart';
 
 class customAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -9,10 +10,16 @@ class customAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       title: const Text("HRMS", style: TextStyle(color: Colors.black)),
       centerTitle: true,
-      actions: const [
-        CircleAvatar(
-          backgroundColor: Colors.black12,
-          radius: 20,
+      actions: [
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: ((context) => Profile())));
+          },
+          child: CircleAvatar(
+            backgroundColor: Colors.black12,
+            radius: 20,
+          ),
         ),
         SizedBox(width: 16),
       ],

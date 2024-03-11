@@ -1,8 +1,14 @@
-part of 'form_bloc.dart';
+import 'package:equatable/equatable.dart';
 
-sealed class FormEvent extends Equatable {
-  const FormEvent();
+abstract class FormSubmissionEvent extends Equatable {
+  const FormSubmissionEvent();
+}
+
+class SubmitForm extends FormSubmissionEvent {
+  Map<String, dynamic> formData;
+
+  SubmitForm({required this.formData});
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
